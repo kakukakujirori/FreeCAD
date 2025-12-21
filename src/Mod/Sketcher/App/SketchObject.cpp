@@ -491,6 +491,7 @@ void SketchObject::retrieveSolverDiagnostics()
     lastConflicting = solvedSketch.getConflicting();
     lastRedundant = solvedSketch.getRedundant();
     lastPartiallyRedundant = solvedSketch.getPartiallyRedundant();
+    lastConflictingGroups = solvedSketch.getConflictingGroups();
     lastMalformedConstraints = solvedSketch.getMalformedConstraints();
 }
 

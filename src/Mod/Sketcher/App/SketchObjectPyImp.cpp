@@ -66,6 +66,62 @@ PyObject* SketchObjectPy::solve(PyObject* args)
     return Py_BuildValue("i", ret);
 }
 
+PyObject* SketchObjectPy::getSolverStatus(PyObject* args)
+{
+    if (!PyArg_ParseTuple(args, "")) {
+        return nullptr;
+    }
+
+    auto* sketch = this->getSketchObjectPtr();
+    Py::Dict ret;
+
+    ret.setItem("DoF", Py::Long(sketch->getLastDoF()));
+
+    // Status logic matching SketchObject::solve return codes
+    std::string status = "Converged";
+    if (sketch->getLastHasMalformedConstraints()) {
+        status = "Malformed";
+    }
+    else if (sketch->getLastDoF() < 0) {
+        status = "OverConstrained";
+    }
+    else if (sketch->getLastHasConflicts()) {
+        status = "Conflicting";
+    }
+    else if (sketch->getLastHasRedundancies()) {
+        status = "Redundant";
+    }
+    else if (sketch->getLastSolverStatus() != 0) { // GCS::Success == 0
+        status = "Failed";
+    }
+
+    ret.setItem("Status", Py::String(status));
+
+    // ConflictingConstraints
+    Py::List conflicting;
+    const auto& c = sketch->getLastConflicting();
+    for(int idx : c) conflicting.append(Py::Long(idx));
+    ret.setItem("ConflictingConstraints", conflicting);
+
+    // RedundantConstraints (the ones suggested for removal)
+    Py::List redundant;
+    const auto& r = sketch->getLastRedundant();
+    for(int idx : r) redundant.append(Py::Long(idx));
+    ret.setItem("RedundantConstraints", redundant);
+
+    // ConflictGroups (potential conflict/redundant groups)
+    Py::List groups;
+    const auto& g = sketch->getLastConflictingGroups();
+    for(const auto& group : g) {
+        Py::List pyGroup;
+        for(int idx : group) pyGroup.append(Py::Long(idx));
+        groups.append(pyGroup);
+    }
+    ret.setItem("ConflictGroups", groups);
+
+    return Py::new_reference_to(ret);
+}
+
 PyObject* SketchObjectPy::addGeometry(PyObject* args)
 {
     PyObject* pcObj;

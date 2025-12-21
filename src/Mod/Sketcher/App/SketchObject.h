@@ -619,6 +619,11 @@ public:
     {
         return lastMalformedConstraints;
     }
+    /// gets the conflicting groups of last solver execution
+    inline const std::vector<std::vector<int>>& getLastConflictingGroups() const
+    {
+        return lastConflictingGroups;
+    }
 
 public: /* Solver exposed interface */
     /// gets the solved sketch as a reference
@@ -949,8 +954,9 @@ private:
     std::vector<int> lastConflicting;
     std::vector<int> lastRedundant;
     std::vector<int> lastPartiallyRedundant;
+    std::vector<std::vector<int>> lastConflictingGroups;
     std::vector<int> lastMalformedConstraints;
-
+    std::vector<std::pair<int, Sketcher::PointPos>> dependentParameters;
     boost::signals2::scoped_connection constraintsRenamedConn;
     boost::signals2::scoped_connection constraintsRemovedConn;
 

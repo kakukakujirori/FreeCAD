@@ -4961,6 +4961,7 @@ int System::diagnose(Algorithm alg)
     conflictingTags.clear();
     redundantTags.clear();
     partiallyRedundantTags.clear();
+    potentialConflictGroups.clear();
 
     // This QR diagnosis uses a reduced Jacobian matrix to calculate the rank of the system
     // and identify conflicting and redundant constraints.
@@ -5591,6 +5592,13 @@ void System::identifyConflictingRedundantConstraints(
         int origCol = qrJT.colsPermutation().indices()[j];
 
         conflictGroups[j - rank].push_back(clist[jacobianconstraintmap.at(origCol)]);
+    }
+
+    potentialConflictGroups.resize(conflictGroups.size());
+    for(size_t i = 0; i < conflictGroups.size(); ++i) {
+        for(auto* c : conflictGroups[i]) {
+            potentialConflictGroups[i].push_back(c->getTag());
+        }
     }
 
     // Augment the information regarding the group of constraints that are conflicting or redundant.

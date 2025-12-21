@@ -142,6 +142,7 @@ void Sketch::clear()
     Conflicting.clear();
     Redundant.clear();
     PartiallyRedundant.clear();
+    ConflictingGroups.clear();
     MalformedConstraints.clear();
 }
 
@@ -335,6 +336,7 @@ int Sketch::setUpSketch(const std::vector<Part::Geometry*>& GeoList,
     GCSsys.getRedundant(Redundant);
     GCSsys.getPartiallyRedundant(PartiallyRedundant);
     GCSsys.getDependentParams(pDependentParametersList);
+    GCSsys.getPotentialConflictGroups(ConflictingGroups);
 
     calculateDependentParametersElements();
 
@@ -645,6 +647,7 @@ int Sketch::resetSolver()
     GCSsys.getRedundant(Redundant);
     GCSsys.getPartiallyRedundant(PartiallyRedundant);
     GCSsys.getDependentParams(pDependentParametersList);
+    GCSsys.getPotentialConflictGroups(ConflictingGroups);
 
     calculateDependentParametersElements();
 

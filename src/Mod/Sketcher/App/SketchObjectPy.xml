@@ -31,6 +31,19 @@ solve()
         </UserDocu>
       </Documentation>
     </Methode>
+    <Methode Name="getSolverStatus">
+        <Documentation>
+            <UserDocu>
+Returns a dictionary with the solver status.
+Keys:
+'DoF': Degree of Freedom
+'Status': Solver status ('Converged', 'Failed', 'OverConstrained', 'Conflicting', 'Redundant', 'Malformed')
+'ConflictingConstraints': List of conflicting constraint indices
+'RedundantConstraints': List of redundant constraint indices (auto-suggested for removal)
+'ConflictGroups': List of groups of constraints indices that are conflicting or redundant
+            </UserDocu>
+        </Documentation>
+    </Methode>
     <Methode Name="addGeometry">
       <Documentation>
         <UserDocu>

@@ -107,6 +107,7 @@ public:
     Base::Vector3d getPoint(int geoId, PointPos pos) const;
 
     // Inline methods
+    // Inline methods
     inline bool hasConflicts() const
     {
         return !Conflicting.empty();
@@ -131,12 +132,6 @@ public:
     {
         return PartiallyRedundant;
     }
-
-    inline float getSolveTime() const
-    {
-        return SolveTime;
-    }
-
     inline bool hasMalformedConstraints() const
     {
         return !MalformedConstraints.empty();
@@ -144,6 +139,15 @@ public:
     inline const std::vector<int>& getMalformedConstraints() const
     {
         return MalformedConstraints;
+    }
+    inline const std::vector<std::vector<int>>& getConflictingGroups() const
+    {
+        return ConflictingGroups;
+    }
+
+    inline float getSolveTime() const
+    {
+        return SolveTime;
     }
 
 public:
@@ -573,6 +577,7 @@ private:
     std::vector<int> Conflicting;
     std::vector<int> Redundant;
     std::vector<int> PartiallyRedundant;
+    std::vector<std::vector<int>> ConflictingGroups;
     std::vector<int> MalformedConstraints;
 
     std::vector<double*> pDependentParametersList;

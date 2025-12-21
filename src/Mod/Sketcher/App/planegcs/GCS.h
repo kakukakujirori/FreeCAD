@@ -136,6 +136,7 @@ private:
     int dofs;
     std::set<Constraint*> redundant;
     VEC_I conflictingTags, redundantTags, partiallyRedundantTags;
+    std::vector<std::vector<int>> potentialConflictGroups;
 
     bool hasUnknowns;   // if plist is filled with the unknown parameters
     bool hasDiagnosis;  // if dofs, conflictingTags, redundantTags are up to date
@@ -611,6 +612,11 @@ public:
     bool hasPartiallyRedundant() const
     {
         return !(hasDiagnosis && partiallyRedundantTags.empty());
+    }
+
+    void getPotentialConflictGroups(std::vector<std::vector<int>>& conflictGroupsOut) const
+    {
+        conflictGroupsOut = hasDiagnosis ? potentialConflictGroups : std::vector<std::vector<int>>(0);
     }
 
     void invalidatedDiagnosis();
