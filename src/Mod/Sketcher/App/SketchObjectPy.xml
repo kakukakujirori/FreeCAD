@@ -41,6 +41,7 @@ Keys:
 'ConflictingConstraints': List of conflicting constraint indices
 'RedundantConstraints': List of redundant constraint indices (auto-suggested for removal)
 'ConflictGroups': List of groups of constraints indices that are conflicting or redundant
+'MalformedConstraints': List of malformed constraint indices (1-indexed)
             </UserDocu>
         </Documentation>
     </Methode>

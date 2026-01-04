@@ -119,6 +119,12 @@ PyObject* SketchObjectPy::getSolverStatus(PyObject* args)
     }
     ret.setItem("ConflictGroups", groups);
 
+    // MalformedConstraints
+    Py::List malformed;
+    const auto& m = sketch->getLastMalformedConstraints();
+    for(int idx : m) malformed.append(Py::Long(idx));
+    ret.setItem("MalformedConstraints", malformed);
+
     return Py::new_reference_to(ret);
 }
 
